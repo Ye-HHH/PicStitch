@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>图片裁剪与拼接工具 (高级版)</title>
+    <title>极简图片处理工具</title>
     <!-- 引入 Tailwind CSS 用于快速构建美观的界面 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- 引入 Cropper.js 的 CSS 文件 -->
@@ -22,15 +20,32 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
         }
         /* 拼接预览图中被选为标准的图片样式 */
-        #stitch-preview img.selected-standard {
+        #stitch-preview .preview-item.selected-standard img {
             outline: 4px solid #4f46e5; /* indigo-600 */
             outline-offset: 2px;
-            border-radius: 0.375rem;
         }
         /* 拖拽时的占位符样式 */
         .sortable-ghost {
             opacity: 0.4;
             background-color: #c7d2fe; /* indigo-200 */
+        }
+        /* 选中的拼接方向按钮样式 */
+        #stitch-controls button.active-direction {
+            outline: 2px solid #4f46e5;
+            outline-offset: 2px;
+            background-color: #3730a3; /* A darker shade of indigo */
+        }
+        /* 删除按钮样式 */
+        .delete-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .preview-item:hover .delete-btn {
+            opacity: 1;
+            transform: scale(1);
+        }
+        /* 预览框高度变化的过渡效果 */
+        #stitch-preview-wrapper {
+            transition: height 0.3s ease-in-out;
         }
     </style>
 </head>
@@ -38,8 +53,8 @@
 
     <div class="container mx-auto p-4 sm:p-6 lg:p-8">
         <header class="text-center mb-10">
-            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white">在线图片高级工具</h1>
-            <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">精确裁剪与标准化拼接</p>
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white">极简图片处理工具</h1>
+            <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">裁剪与拼接</p>
         </header>
 
         <main>
@@ -67,12 +82,13 @@
                                     <button data-ratio="1/1" class="px-3 py-1.5 bg-gray-200 dark:bg-gray-600 text-sm font-semibold rounded-md hover:bg-blue-500 hover:text-white">1:1</button>
                                     <button data-ratio="4/3" class="px-3 py-1.5 bg-gray-200 dark:bg-gray-600 text-sm font-semibold rounded-md hover:bg-blue-500 hover:text-white">4:3</button>
                                     <button data-ratio="16/9" class="px-3 py-1.5 bg-gray-200 dark:bg-gray-600 text-sm font-semibold rounded-md hover:bg-blue-500 hover:text-white">16:9</button>
+                                    <button id="reset-crop-btn" class="px-3 py-1.5 bg-yellow-400 dark:bg-yellow-600 text-sm font-semibold rounded-md hover:bg-yellow-500 text-white">复位</button>
                                 </div>
                             </div>
                             <div>
                                 <p class="text-sm font-medium mb-2">按像素设定比例:</p>
                                 <div class="flex items-center gap-2">
-                                    <input type="number" id="crop-width" placeholder="宽度" class="w-24 p-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 text-sm">
+                                    <input type="number" id="crop-width" placeholder="长度" class="w-24 p-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 text-sm">
                                     <span class="text-gray-500">x</span>
                                     <input type="number" id="crop-height" placeholder="高度" class="w-24 p-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 text-sm">
                                 </div>
@@ -81,7 +97,7 @@
 
                         <div class="mt-6">
                             <h3 class="text-lg font-semibold mb-2">裁剪结果预览</h3>
-                            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg min-h-[200px] flex items-center justify-center p-4">
+                            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-[200px] flex items-center justify-center p-4">
                                <canvas id="crop-result-canvas" class="max-w-full h-auto"></canvas>
                             </div>
                         </div>
@@ -99,37 +115,29 @@
                  <div class="grid md:grid-cols-2 gap-8">
                     <!-- 左侧：上传和操作 -->
                     <div>
-                        <label for="stitch-input" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">选择图片 (上传后可拖拽排序):</label>
+                        <label for="stitch-input" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">选择图片 (可多次添加，上传后可拖拽排序):</label>
                         <input type="file" id="stitch-input" accept="image/*" multiple class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 dark:file:bg-indigo-900/50 dark:file:text-indigo-300 dark:hover:file:bg-indigo-900">
                         
-                        <div id="stitch-preview" class="mt-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 cursor-pointer">
+                        <p id="stitch-hint" class="text-sm text-gray-500 mt-2 hidden">提示：点击下方任一图片，即可将其设为拼接标准。</p>
+                        <div id="stitch-preview" class="mt-2 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
                             <!-- 待拼接图片缩略图将在这里显示 -->
                         </div>
 
                         <div id="stitch-controls" class="mt-6 hidden">
                             <h3 class="text-lg font-semibold mb-2">拼接方式</h3>
-                            <div class="p-4 border rounded-lg dark:border-gray-600">
-                                <p class="text-sm font-medium mb-2">A. 按原始尺寸拼接:</p>
-                                <div class="space-x-2">
-                                    <button id="stitch-original-vertical" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 text-sm">垂直拼接</button>
-                                    <button id="stitch-original-horizontal" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 text-sm">水平拼接</button>
-                                </div>
-                            </div>
-                            <div id="standard-stitch-controls" class="mt-4 p-4 border rounded-lg dark:border-gray-600 hidden">
-                                <p class="text-sm font-medium mb-2">B. 基于所选标准图进行拼接 (可点击图片选择):</p>
-                                <div class="space-x-2">
-                                    <button id="stitch-standard-width" class="px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 text-sm">统一宽度拼接</button>
-                                    <button id="stitch-standard-height" class="px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 text-sm">统一高度拼接</button>
-                                </div>
+                            <div class="p-4 border rounded-lg dark:border-gray-600 flex flex-wrap items-center gap-2">
+                                <button id="stitch-vertical" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 text-sm">竖向拼接</button>
+                                <button id="stitch-horizontal" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 text-sm">横向拼接</button>
+                                <div class="flex-grow"></div>
+                                <button id="clear-all-stitch" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 text-sm">一键清除</button>
                             </div>
                         </div>
                     </div>
                     <!-- 右侧：结果预览和下载 -->
                     <div>
                         <h3 class="text-lg font-semibold mb-2">拼接结果预览</h3>
-                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 overflow-auto max-h-[500px] flex items-center justify-center">
-                            <!-- **** 修改点：为canvas添加样式以限制其大小 **** -->
-                            <canvas id="stitch-result-canvas" class="max-w-full h-auto"></canvas>
+                        <div id="stitch-preview-wrapper" class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 overflow-auto h-[200px] flex justify-start items-start">
+                            <canvas id="stitch-result-canvas"></canvas>
                         </div>
                         <div class="mt-4">
                             <a id="download-stitch" class="hidden px-5 py-2.5 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700" href="#" download="stitched_image.png">下载拼接图片</a>
@@ -142,7 +150,7 @@
 
     <!-- 引入 Cropper.js 的 JS 文件 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
-    <!-- **** 新增点：引入 SortableJS 用于拖拽排序 **** -->
+    <!-- 引入 SortableJS 用于拖拽排序 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -156,6 +164,7 @@
             const aspectRatioButtons = document.getElementById('aspect-ratio-buttons');
             const cropWidthInput = document.getElementById('crop-width');
             const cropHeightInput = document.getElementById('crop-height');
+            const resetCropBtn = document.getElementById('reset-crop-btn');
             let cropper = null;
 
             cropInput.addEventListener('change', (e) => {
@@ -167,16 +176,27 @@
                     imageToCrop.classList.remove('hidden');
                     if (cropper) cropper.destroy();
                     cropper = new Cropper(imageToCrop, {
-                        viewMode: 1, background: false, autoCropArea: 0.8, responsive: true
+                        viewMode: 1,
+                        dragMode: 'move', // 允许拖动摇摄图片
+                        background: false,
+                        autoCropArea: 0.8,
+                        responsive: true,
+                        toggleDragModeOnDblclick: false, // 禁用双击切换模式
                     });
                     cropButton.disabled = false;
                     cropControls.classList.remove('hidden');
                 };
                 reader.readAsDataURL(file);
             });
+            
+            resetCropBtn.addEventListener('click', () => {
+                if (cropper) {
+                    cropper.reset();
+                }
+            });
 
             aspectRatioButtons.addEventListener('click', (e) => {
-                if (e.target.tagName === 'BUTTON') {
+                if (e.target.tagName === 'BUTTON' && e.target.dataset.ratio) {
                     const ratioStr = e.target.dataset.ratio;
                     const ratio = ratioStr === 'free' ? NaN : eval(ratioStr);
                     cropper.setAspectRatio(ratio);
@@ -210,21 +230,123 @@
             const downloadStitchLink = document.getElementById('download-stitch');
             const stitchPreviewContainer = document.getElementById('stitch-preview');
             const stitchControls = document.getElementById('stitch-controls');
-            const standardStitchControls = document.getElementById('standard-stitch-controls');
+            const stitchVerticalBtn = document.getElementById('stitch-vertical');
+            const stitchHorizontalBtn = document.getElementById('stitch-horizontal');
+            const stitchHint = document.getElementById('stitch-hint');
+            const clearAllBtn = document.getElementById('clear-all-stitch');
+            const stitchPreviewWrapper = document.getElementById('stitch-preview-wrapper');
 
             let stitchImages = [];
             let selectedStandardIndex = -1;
-            let sortable = null; // 用于存储Sortable实例
+            let selectedDirection = null;
+            let sortable = null;
+
+            const resetStitchArea = () => {
+                stitchImages = [];
+                if (sortable) {
+                    sortable.destroy();
+                    sortable = null;
+                }
+                stitchPreviewContainer.innerHTML = '';
+                selectedStandardIndex = -1;
+                selectedDirection = null;
+                stitchVerticalBtn.classList.remove('active-direction');
+                stitchHorizontalBtn.classList.remove('active-direction');
+                stitchHint.classList.add('hidden');
+                stitchControls.classList.add('hidden');
+                const ctx = stitchResultCanvas.getContext('2d');
+                ctx.clearRect(0, 0, stitchResultCanvas.width, stitchResultCanvas.height);
+                downloadStitchLink.classList.add('hidden');
+                stitchInput.value = ''; // 清空文件选择器
+                
+                // 恢复预览区初始高度
+                stitchPreviewWrapper.classList.remove('h-[500px]');
+                stitchPreviewWrapper.classList.add('h-[200px]');
+            };
+
+            const renderStitchPreviews = () => {
+                // If we're about to render an empty list, just reset everything and stop.
+                if (stitchImages.length === 0) {
+                    resetStitchArea();
+                    return;
+                }
+
+                // Otherwise, destroy the old sortable instance before re-rendering
+                if (sortable) {
+                    sortable.destroy();
+                    sortable = null;
+                }
+                stitchPreviewContainer.innerHTML = ''; // 清空现有预览
+
+                stitchImages.forEach((data, index) => {
+                    const itemContainer = document.createElement('div');
+                    itemContainer.className = 'preview-item relative cursor-pointer';
+                    if (index === selectedStandardIndex) {
+                        itemContainer.classList.add('selected-standard');
+                    }
+
+                    const thumb = document.createElement('img');
+                    thumb.src = data.src;
+                    thumb.className = 'w-full h-auto object-cover rounded-md';
+
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-btn absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold opacity-0 scale-75 transform hover:bg-red-600';
+                    deleteBtn.innerHTML = '&#x2715;'; // '✕' character
+                    deleteBtn.title = '删除此图片';
+
+                    deleteBtn.addEventListener('click', (e) => {
+                        e.stopPropagation(); // 防止触发父元素的点击事件（选择标准图）
+                        stitchImages.splice(index, 1);
+                        // 如果删除的是标准图，重置标准
+                        if (index === selectedStandardIndex) {
+                            selectedStandardIndex = -1;
+                        } else if (index < selectedStandardIndex) {
+                            selectedStandardIndex--; // 如果删除的是标准图前面的图，索引要减一
+                        }
+                        renderStitchPreviews(); // 重新渲染预览区
+                        if(selectedDirection) stitch({ direction: selectedDirection }); // 如果有方向，刷新拼接结果
+                    });
+
+                    itemContainer.appendChild(thumb);
+                    itemContainer.appendChild(deleteBtn);
+                    stitchPreviewContainer.appendChild(itemContainer);
+
+                    itemContainer.addEventListener('click', () => {
+                        selectStandard(index);
+                    });
+                });
+                
+                stitchControls.classList.remove('hidden');
+                stitchHint.classList.remove('hidden');
+
+                sortable = new Sortable(stitchPreviewContainer, {
+                    animation: 150,
+                    ghostClass: 'sortable-ghost',
+                    onEnd: (evt) => {
+                        const movedItem = stitchImages.splice(evt.oldIndex, 1)[0];
+                        stitchImages.splice(evt.newIndex, 0, movedItem);
+
+                        if (selectedStandardIndex === evt.oldIndex) {
+                            selectedStandardIndex = evt.newIndex;
+                        } else if (evt.oldIndex < selectedStandardIndex && evt.newIndex >= selectedStandardIndex) {
+                            selectedStandardIndex--;
+                        } else if (evt.oldIndex > selectedStandardIndex && evt.newIndex <= selectedStandardIndex) {
+                            selectedStandardIndex++;
+                        }
+                        
+                        // 重新渲染以更新DOM和事件，确保一致性
+                        renderStitchPreviews();
+
+                        if(selectedDirection) {
+                            stitch({ direction: selectedDirection });
+                        }
+                    },
+                });
+            };
 
             stitchInput.addEventListener('change', (e) => {
                 const files = e.target.files;
-                if (files.length < 2) { alert('请至少选择两张图片进行拼接！'); return; }
-
-                stitchImages = [];
-                stitchPreviewContainer.innerHTML = '';
-                selectedStandardIndex = -1;
-                standardStitchControls.classList.add('hidden');
-                if (sortable) sortable.destroy(); // 销毁旧的实例
+                if (files.length === 0) return;
 
                 const promises = Array.from(files).map((file) => {
                     return new Promise((resolve, reject) => {
@@ -240,125 +362,151 @@
                     });
                 });
 
-                Promise.all(promises).then(imageData => {
-                    stitchImages = imageData.map(data => data.img);
-                    
-                    // 创建DOM元素
-                    imageData.forEach((data, index) => {
-                        const thumb = document.createElement('img');
-                        thumb.src = data.src;
-                        thumb.className = 'w-full h-auto object-cover rounded-md';
-                        // **** 修改点：点击事件现在更稳健 ****
-                        thumb.addEventListener('click', (e) => {
-                            const allThumbs = Array.from(stitchPreviewContainer.children);
-                            const newIndex = allThumbs.indexOf(e.currentTarget);
-                            selectStandard(newIndex);
-                        });
-                        stitchPreviewContainer.appendChild(thumb);
-                    });
-                    
-                    stitchControls.classList.remove('hidden');
-                    
-                    // **** 新增点：初始化SortableJS ****
-                    sortable = new Sortable(stitchPreviewContainer, {
-                        animation: 150,
-                        ghostClass: 'sortable-ghost',
-                        onEnd: (evt) => {
-                            // 拖拽结束后，同步 stitchImages 数组的顺序
-                            const movedItem = stitchImages.splice(evt.oldIndex, 1)[0];
-                            stitchImages.splice(evt.newIndex, 0, movedItem);
-
-                            // 如果有选中的标准图，更新其索引
-                            if (selectedStandardIndex !== -1) {
-                                const selectedElement = stitchPreviewContainer.querySelector('.selected-standard');
-                                if (selectedElement) {
-                                    selectedStandardIndex = Array.from(stitchPreviewContainer.children).indexOf(selectedElement);
-                                }
-                            }
-                        },
-                    });
+                Promise.all(promises).then(newImageData => {
+                    stitchImages.push(...newImageData); // 追加新图片
+                    renderStitchPreviews(); // 渲染所有预览
                 }).catch(error => console.error("图片加载失败:", error));
+                 
+                e.target.value = ''; // 允许重复选择相同的文件
             });
 
+            clearAllBtn.addEventListener('click', resetStitchArea);
+
             function selectStandard(index) {
-                selectedStandardIndex = index;
-                // 更新UI高亮
-                Array.from(stitchPreviewContainer.children).forEach((child, i) => {
-                    child.classList.toggle('selected-standard', i === index);
+                if (selectedStandardIndex === index) {
+                    selectedStandardIndex = -1;
+                } else {
+                    selectedStandardIndex = index;
+                }
+                
+                // 只更新样式，不重新渲染整个列表
+                Array.from(stitchPreviewContainer.children).forEach((el, i) => {
+                    if (i === selectedStandardIndex) {
+                        el.classList.add('selected-standard');
+                    } else {
+                        el.classList.remove('selected-standard');
+                    }
                 });
-                standardStitchControls.classList.remove('hidden');
+
+                if (selectedDirection) {
+                    stitch({ direction: selectedDirection });
+                }
+            }
+            
+            stitchVerticalBtn.addEventListener('click', () => {
+                selectedDirection = 'vertical';
+                stitchVerticalBtn.classList.add('active-direction');
+                stitchHorizontalBtn.classList.remove('active-direction');
+                stitch({ direction: 'vertical' });
+            });
+
+            stitchHorizontalBtn.addEventListener('click', () => {
+                selectedDirection = 'horizontal';
+                stitchHorizontalBtn.classList.add('active-direction');
+                stitchVerticalBtn.classList.remove('active-direction');
+                stitch({ direction: 'horizontal' });
+            });
+
+            function stitch({ direction }) {
+                if (stitchImages.length < 2) {
+                     const ctx = stitchResultCanvas.getContext('2d');
+                     ctx.clearRect(0, 0, stitchResultCanvas.width, stitchResultCanvas.height);
+                     downloadStitchLink.classList.add('hidden');
+                     stitchPreviewWrapper.classList.remove('h-[500px]');
+                     stitchPreviewWrapper.classList.add('h-[200px]');
+                     return;
+                }
+                
+                // 拼接时，智能调整预览区高度
+                if (direction === 'vertical') {
+                    stitchPreviewWrapper.classList.remove('h-[200px]');
+                    stitchPreviewWrapper.classList.add('h-[500px]');
+                } else {
+                    stitchPreviewWrapper.classList.remove('h-[500px]');
+                    stitchPreviewWrapper.classList.add('h-[200px]');
+                }
+                
+                const originalImages = stitchImages.map(data => data.img);
+                const isStandardMode = selectedStandardIndex !== -1;
+                
+                let scaledDims;
+
+                if (isStandardMode) {
+                    const standardImage = originalImages[selectedStandardIndex];
+                    scaledDims = originalImages.map(img => {
+                        if (img === standardImage) {
+                            return { width: img.width, height: img.height };
+                        }
+                        const ratio = img.width / img.height;
+                        let newWidth, newHeight;
+                        if (direction === 'vertical') {
+                            newWidth = standardImage.width;
+                            newHeight = Math.round(newWidth / ratio);
+                        } else { // horizontal
+                            newHeight = standardImage.height;
+                            newWidth = Math.round(newHeight * ratio);
+                        }
+                        return { width: newWidth, height: newHeight };
+                    });
+                } else {
+                    scaledDims = originalImages.map(img => ({ width: img.width, height: img.height }));
+                }
+                
+                drawStitchedImage(direction, originalImages, scaledDims);
             }
 
-            document.getElementById('stitch-original-vertical').addEventListener('click', () => stitch({ mode: 'original', direction: 'vertical' }));
-            document.getElementById('stitch-original-horizontal').addEventListener('click', () => stitch({ mode: 'original', direction: 'horizontal' }));
-            document.getElementById('stitch-standard-width').addEventListener('click', () => stitch({ mode: 'standard', direction: 'vertical', standardOn: 'width' }));
-            document.getElementById('stitch-standard-height').addEventListener('click', () => stitch({ mode: 'standard', direction: 'horizontal', standardOn: 'height' }));
-
-            async function stitch({ mode, direction, standardOn }) {
-                if (stitchImages.length < 2) return;
-                if (mode === 'standard' && selectedStandardIndex === -1) {
-                    alert('请先点击一张图片作为拼接标准！');
-                    return;
-                }
-
-                let imagesToStitch = stitchImages;
-                
-                if (mode === 'standard') {
-                    const standardImage = stitchImages[selectedStandardIndex];
-                    const standardWidth = standardImage.width;
-                    const standardHeight = standardImage.height;
-
-                    const scalingPromises = stitchImages.map(img => {
-                        if (img === standardImage) return Promise.resolve(img);
-                        
-                        let newWidth, newHeight;
-                        const originalRatio = img.width / img.height;
-
-                        if (standardOn === 'width') {
-                            newWidth = standardWidth;
-                            newHeight = newWidth / originalRatio;
-                        } else {
-                            newHeight = standardHeight;
-                            newWidth = newHeight * originalRatio;
-                        }
-
-                        return new Promise(resolve => {
-                            const canvas = document.createElement('canvas');
-                            canvas.width = newWidth;
-                            canvas.height = newHeight;
-                            const ctx = canvas.getContext('2d');
-                            ctx.drawImage(img, 0, 0, newWidth, newHeight);
-                            const newImg = new Image();
-                            newImg.onload = () => resolve(newImg);
-                            newImg.src = canvas.toDataURL();
-                        });
-                    });
-                    imagesToStitch = await Promise.all(scalingPromises);
-                }
-
+            function drawStitchedImage(direction, images, dims) {
                 let totalWidth = 0, totalHeight = 0;
                 const ctx = stitchResultCanvas.getContext('2d');
+                
+                // 重置样式，为新的智能缩放做准备
+                stitchResultCanvas.style.width = 'auto';
+                stitchResultCanvas.style.height = 'auto';
+                stitchResultCanvas.style.maxWidth = 'none';
+                stitchResultCanvas.style.maxHeight = 'none';
 
                 if (direction === 'vertical') {
-                    totalWidth = Math.max(...imagesToStitch.map(img => img.width));
-                    totalHeight = imagesToStitch.reduce((sum, img) => sum + img.height, 0);
+                    totalWidth = Math.max(...dims.map(d => d.width));
+                    totalHeight = dims.reduce((sum, d) => sum + d.height, 0);
                     stitchResultCanvas.width = totalWidth;
                     stitchResultCanvas.height = totalHeight;
                     let currentY = 0;
-                    imagesToStitch.forEach(img => {
-                        ctx.drawImage(img, (totalWidth - img.width) / 2, currentY);
-                        currentY += img.height;
+                    images.forEach((img, index) => {
+                        const d = dims[index];
+                        ctx.drawImage(img, (totalWidth - d.width) / 2, currentY, d.width, d.height);
+                        currentY += d.height;
                     });
                 } else {
-                    totalWidth = imagesToStitch.reduce((sum, img) => sum + img.width, 0);
-                    totalHeight = Math.max(...imagesToStitch.map(img => img.height));
+                    totalWidth = dims.reduce((sum, d) => sum + d.width, 0);
+                    totalHeight = Math.max(...dims.map(d => d.height));
                     stitchResultCanvas.width = totalWidth;
                     stitchResultCanvas.height = totalHeight;
                     let currentX = 0;
-                    imagesToStitch.forEach(img => {
-                        ctx.drawImage(img, currentX, (totalHeight - img.height) / 2);
-                        currentX += img.width;
+                    images.forEach((img, index) => {
+                        const d = dims[index];
+                        ctx.drawImage(img, currentX, (totalHeight - d.height) / 2, d.width, d.height);
+                        currentX += d.width;
                     });
+                }
+
+                // 智能预览逻辑
+                const container = stitchPreviewWrapper;
+                const containerWidth = container.clientWidth - 32;
+                const containerHeight = container.clientHeight - 32;
+
+                if (totalWidth <= containerWidth && totalHeight <= containerHeight) {
+                    // 图片很小，不需要缩放，让它以原始尺寸居中显示
+                    stitchResultCanvas.style.width = totalWidth + 'px';
+                    stitchResultCanvas.style.height = totalHeight + 'px';
+                } else {
+                    // 图片很大，应用单向滚动
+                    if (direction === 'vertical') {
+                        stitchResultCanvas.style.width = '100%';
+                        stitchResultCanvas.style.height = 'auto';
+                    } else { // horizontal
+                        stitchResultCanvas.style.height = '100%';
+                        stitchResultCanvas.style.width = 'auto';
+                    }
                 }
 
                 downloadStitchLink.href = stitchResultCanvas.toDataURL('image/png');
@@ -368,3 +516,5 @@
     </script>
 </body>
 </html>
+
+
