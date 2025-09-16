@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,8 +69,8 @@
                         <label for="crop-input" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">选择一张图片：</label>
                         <input type="file" id="crop-input" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900/50 dark:file:text-blue-300 dark:hover:file:bg-blue-900">
                         
-                        <div class="mt-6">
-                            <img id="image-to-crop" class="hidden max-h-[400px] w-full object-contain rounded-lg bg-gray-100 dark:bg-gray-700">
+                        <div class="mt-6 h-[400px] bg-gray-100 dark:bg-gray-700 rounded-lg flex justify-center items-center">
+                            <img id="image-to-crop" class="hidden max-w-full max-h-full">
                         </div>
                     </div>
                     <!-- 右侧：控制、预览和下载 -->
@@ -98,7 +100,7 @@
                         <div class="mt-6">
                             <h3 class="text-lg font-semibold mb-2">裁剪结果预览</h3>
                             <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-[200px] flex items-center justify-center p-4">
-                               <canvas id="crop-result-canvas" class="max-w-full h-auto"></canvas>
+                               <canvas id="crop-result-canvas" class="max-w-full max-h-full"></canvas>
                             </div>
                         </div>
                         <div class="mt-4 space-x-2">
@@ -495,9 +497,7 @@
                 const containerHeight = container.clientHeight - 32;
 
                 if (totalWidth <= containerWidth && totalHeight <= containerHeight) {
-                    // 图片很小，不需要缩放，让它以原始尺寸居中显示
-                    stitchResultCanvas.style.width = totalWidth + 'px';
-                    stitchResultCanvas.style.height = totalHeight + 'px';
+                    // 图片很小，不需要缩放
                 } else {
                     // 图片很大，应用单向滚动
                     if (direction === 'vertical') {
@@ -516,5 +516,4 @@
     </script>
 </body>
 </html>
-
 
