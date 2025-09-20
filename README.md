@@ -33,3 +33,43 @@
 * **JavaScript (ES6+)**: 实现所有核心逻辑。
 * **Cropper.js**: 一个功能强大且成熟的图片裁剪库。
 * **SortableJS**: 一个轻量、零依赖的拖拽排序库。
+
+<div align="center">
+<table style="border: none; border-collapse: collapse; margin: 0 auto; background-color: #1A1A1A; padding: 10px; border-radius: 5px;">
+  <tr>
+    <td style="border: none; padding-right: 20px;">
+      <table style="border: none; border-collapse: collapse; margin: 0 auto; font-family: monospace, monospace; color: #4AF626; font-size: 16px;">
+        <tr><td>&gt; useless-tool_</td></tr>
+      </table>
+    </td>
+    <td style="border: none;">
+      <table style="border: 2px solid #333; border-collapse: collapse; margin: 0 auto;">
+        <tr>
+          <td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #7B68EE; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td>
+        </tr>
+        <tr>
+          <td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #483D8B; width: 15px; height: 15px;"></td><td style="background-color: #7B68EE; width: 15px; height: 15px;"></td><td style="background-color: #7B68EE; width: 15px; height: 15px;"></td><td style="background-color: #7B68EE; width: 15px; height: 15px;"></td><td style="background-color: #483D8B; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td>
+        </tr>
+        <tr>
+          <td style="background-color: #483D8B; width: 15px; height: 15px;"></td><td style="background-color: #7B68EE; width: 15px; height: 15px;"></td><td style="background-color: #7B68EE; width: 15px; height: 15px;"></td><td style="background-color: #000000; width: 15px; height: 15px;"></td><td style="background-color: #000000; width: 15px; height: 15px;"></td><td style="background-color: #7B68EE; width: 15px; height: 15px;"></td><td style="background-color: #483D8B; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td>
+        </tr>
+        <tr>
+          <td style="background-color: #483D8B; width: 15px; height: 15px;"></td><td style="background-color: #7B68EE; width: 15px; height: 15px;"></td><td style="background-color: #FFFFFF; width: 15px; height: 15px;"></td><td style="background-color: #000000; width: 15px; height: 15px;"></td><td style="background-color: #000000; width: 15px; height: 15px;"></td><td style="background-color: #7B68EE; width: 15px; height: 15px;"></td><td style="background-color: #483D8B; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td>
+        </tr>
+        <tr>
+          <td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #FFDEAD; width: 15px; height: 15px;"></td><td style="background-color: #FFDEAD; width: 15px; height: 15px;"></td><td style="background-color: #FFDEAD; width: 15px; height: 15px;"></td><td style="background-color: #FFDEAD; width: 15px; height: 15px;"></td><td style="background-color: #FFDEAD; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td>
+        </tr>
+        <tr>
+          <td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #FFDEAD; width: 15px; height: 15px;"></td><td style="background-color: #FFC0CB; width: 15px; height: 15px;"></td><td style="background-color: #FFDEAD; width: 15px; height: 15px;"></td><td style="background-color: #FFDEAD; width: 15px; height: 15px;"></td><td style="background-color: #FFC0CB; width: 15px; height: 15px;"></td><td style="background-color: #FFDEAD; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td>
+        </tr>
+        <tr>
+          <td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #FFDEAD; width: 15px; height: 15px;"></td><td style="background-color: #FFDEAD; width: 15px; height: 15px;"></td><td style="background-color: #FFDEAD; width: 15px; height: 15px;"></td><td style="background-color: #FFDEAD; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td>
+        </tr>
+        <tr>
+          <td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #000000; width: 15px; height: 15px;"></td><td style="background-color: #000000; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td><td style="background-color: #1A1A1A; width: 15px; height: 15px;"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</div>
