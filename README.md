@@ -34,4 +34,4 @@
 * **Cropper.js**: 一个功能强大且成熟的图片裁剪库。
 * **SortableJS**: 一个轻量、零依赖的拖拽排序库。
 
-![Useless Tool Logo](./logo.svg)
+![Useless Tool Logo](./useless_tool_logo.svg)
