@@ -1,0 +1,187 @@
+<svg viewBox="0 0 600 150" xmlns="http://www.w3.org/2000/svg" style="background-color: white;">
+  <defs>
+    <!-- INTP紫色渐变 -->
+    <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9B59B6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7D3C98;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 简单的文字logo -->
+  <g id="text-logo" transform="translate(50, 20)">
+    <!-- USELESS 文字 -->
+    <text x="0" y="35" font-family="Courier New, monospace" font-size="42" font-weight="bold" fill="#8B4789" style="letter-spacing: 3px;">
+      USELESS
+    </text>
+    
+    <!-- TOOL 文字 -->
+    <text x="0" y="75" font-family="Courier New, monospace" font-size="42" font-weight="bold" fill="#9B59B6" style="letter-spacing: 3px;">
+      TOOL
+    </text>
+    
+    <!-- 中文 无用工具 -->
+    <text x="0" y="105" font-family="Arial, sans-serif" font-size="18" fill="#A569BD" style="letter-spacing: 2px;">
+      无用工具
+    </text>
+  </g>
+  
+  <!-- 8-bit风格的长颈锥形瓶 -->
+  <g id="potion-bottle" transform="translate(230, 31)">
+    <!-- 瓶塞 -->
+    <rect x="46" y="0" width="8" height="4" fill="#7D3C98"/>
+    <rect x="44" y="4" width="12" height="4" fill="#8B4789"/>
+    
+    <!-- 超长瓶颈 - 8-bit风格 -->
+    <rect x="46" y="8" width="8" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="46" y="12" width="8" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="46" y="16" width="8" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="46" y="20" width="8" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="46" y="24" width="8" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="46" y="28" width="8" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="46" y="32" width="8" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="46" y="36" width="8" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="46" y="40" width="8" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="46" y="44" width="8" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="46" y="48" width="8" height="4" fill="#DDA0DD" opacity="0.8"/>
+    
+    <!-- 瓶颈边缘 -->
+    <rect x="44" y="8" width="2" height="44" fill="#7D3C98"/>
+    <rect x="54" y="8" width="2" height="44" fill="#7D3C98"/>
+    
+    <!-- 瓶颈与瓶身连接处 -->
+    <rect x="44" y="52" width="12" height="4" fill="#DDA0DD" opacity="0.8"/>
+    
+    <!-- 矮胖的等边三角形瓶身 -->
+    <rect x="42" y="56" width="16" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="40" y="60" width="20" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="38" y="64" width="24" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="36" y="68" width="28" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="34" y="72" width="32" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="32" y="76" width="36" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="30" y="80" width="40" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="28" y="84" width="44" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="26" y="88" width="48" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="24" y="92" width="52" height="4" fill="#DDA0DD" opacity="0.8"/>
+    <rect x="22" y="96" width="56" height="4" fill="#DDA0DD" opacity="0.8"/>
+    
+    <!-- 瓶身轮廓 - 等边三角形 -->
+    <rect x="40" y="56" width="2" height="4" fill="#7D3C98"/>
+    <rect x="58" y="56" width="2" height="4" fill="#7D3C98"/>
+    <rect x="38" y="60" width="2" height="4" fill="#7D3C98"/>
+    <rect x="60" y="60" width="2" height="4" fill="#7D3C98"/>
+    <rect x="36" y="64" width="2" height="4" fill="#7D3C98"/>
+    <rect x="62" y="64" width="2" height="4" fill="#7D3C98"/>
+    <rect x="34" y="68" width="2" height="4" fill="#7D3C98"/>
+    <rect x="64" y="68" width="2" height="4" fill="#7D3C98"/>
+    <rect x="32" y="72" width="2" height="4" fill="#7D3C98"/>
+    <rect x="66" y="72" width="2" height="4" fill="#7D3C98"/>
+    <rect x="30" y="76" width="2" height="4" fill="#7D3C98"/>
+    <rect x="68" y="76" width="2" height="4" fill="#7D3C98"/>
+    <rect x="28" y="80" width="2" height="4" fill="#7D3C98"/>
+    <rect x="70" y="80" width="2" height="4" fill="#7D3C98"/>
+    <rect x="26" y="84" width="2" height="4" fill="#7D3C98"/>
+    <rect x="72" y="84" width="2" height="4" fill="#7D3C98"/>
+    <rect x="24" y="88" width="2" height="4" fill="#7D3C98"/>
+    <rect x="74" y="88" width="2" height="4" fill="#7D3C98"/>
+    <rect x="22" y="92" width="2" height="4" fill="#7D3C98"/>
+    <rect x="76" y="92" width="2" height="4" fill="#7D3C98"/>
+    <rect x="20" y="96" width="2" height="4" fill="#7D3C98"/>
+    <rect x="78" y="96" width="2" height="4" fill="#7D3C98"/>
+    
+    <!-- 底部 -->
+    <rect x="20" y="100" width="60" height="2" fill="#7D3C98"/>
+    
+    <!-- 药水液体 - 占满瓶身 -->
+    <rect x="42" y="58" width="16" height="2" fill="#8B4789"/>
+    <rect x="40" y="60" width="20" height="40" fill="#9B59B6"/>
+    <rect x="38" y="64" width="24" height="36" fill="#9B59B6"/>
+    <rect x="36" y="68" width="28" height="32" fill="#9B59B6"/>
+    <rect x="34" y="72" width="32" height="28" fill="#9B59B6"/>
+    <rect x="32" y="76" width="36" height="24" fill="#9B59B6"/>
+    <rect x="30" y="80" width="40" height="20" fill="#9B59B6"/>
+    <rect x="28" y="84" width="44" height="16" fill="#9B59B6"/>
+    <rect x="26" y="88" width="48" height="12" fill="#9B59B6"/>
+    <rect x="24" y="92" width="52" height="8" fill="#9B59B6"/>
+    <rect x="22" y="96" width="56" height="4" fill="#9B59B6"/>
+    
+    <!-- 泡泡效果 -->
+    <rect x="44" y="65" width="4" height="4" fill="#DA70D6" opacity="0.6"/>
+    <rect x="60" y="72" width="4" height="4" fill="#DA70D6" opacity="0.6"/>
+    <rect x="50" y="80" width="4" height="4" fill="#DDA0DD" opacity="0.5"/>
+    <rect x="40" y="85" width="2" height="2" fill="#DDA0DD" opacity="0.4"/>
+    <rect x="66" y="78" width="2" height="2" fill="#DDA0DD" opacity="0.4"/>
+    
+    <!-- 大号半框眼镜 - 朝向左侧 -->
+    <g transform="translate(-12, 25)">
+      <!-- 左镜片 -->
+      <rect x="34" y="36" width="2" height="12" fill="#4A4A4A"/>
+      <rect x="36" y="34" width="14" height="2" fill="#4A4A4A"/>
+      <rect x="36" y="48" width="14" height="2" fill="#4A4A4A"/>
+      <rect x="50" y="36" width="2" height="12" fill="#4A4A4A"/>
+      <!-- 镜片反光 -->
+      <rect x="39" y="39" width="3" height="3" fill="#E6E6FA" opacity="0.6"/>
+      
+      <!-- 右镜片 -->
+      <rect x="56" y="36" width="2" height="12" fill="#4A4A4A"/>
+      <rect x="58" y="34" width="14" height="2" fill="#4A4A4A"/>
+      <rect x="58" y="48" width="14" height="2" fill="#4A4A4A"/>
+      <rect x="72" y="36" width="2" height="12" fill="#4A4A4A"/>
+      <!-- 镜片反光 -->
+      <rect x="61" y="39" width="3" height="3" fill="#E6E6FA" opacity="0.6"/>
+      
+      <!-- 鼻梁 -->
+      <rect x="52" y="40" width="4" height="2" fill="#4A4A4A"/>
+      
+      <!-- 镜腿 -->
+      <rect x="28" y="40" width="6" height="2" fill="#4A4A4A"/>
+      <rect x="74" y="40" width="6" height="2" fill="#4A4A4A"/>
+    </g>
+    
+    <!-- 高光效果 -->
+    <rect x="48" y="12" width="2" height="30" fill="white" opacity="0.3"/>
+    <rect x="28" y="70" width="2" height="15" fill="white" opacity="0.3"/>
+  </g>
+  
+  <!-- 底部装饰性像素条 -->
+  <g transform="translate(50, 130)">
+    <rect x="0" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="3" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="6" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="9" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="12" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="15" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="18" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="21" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="24" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="27" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="30" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="33" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="36" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="39" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="42" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="45" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="48" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="51" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="54" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="57" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="60" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="63" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="66" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="69" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="72" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="75" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="78" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="81" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="84" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="87" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="90" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="93" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="96" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="99" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="102" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="105" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="108" y="0" width="3" height="3" fill="#DDA0DD"/>
+    <rect x="111" y="0" width="3" height="3" fill="#DA70D6"/>
+    <rect x="114" y="0" width="3" height="3" fill="#DDA0DD"/>
+  </g>
+</svg>
