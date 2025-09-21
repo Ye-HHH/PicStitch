@@ -34,26 +34,4 @@
 * **Cropper.js**: 一个功能强大且成熟的图片裁剪库。
 * **SortableJS**: 一个轻量、零依赖的拖拽排序库。
 
-<svg width="320" height="150" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100%" height="100%" rx="10" ry="10" fill="#1A1A1A" />
-  
-  <!-- Text Part -->
-  <text x="20" y="80" font-family="monospace, monospace" font-size="24" fill="#4AF626">
-    &gt; useless-tool_
-  </text>
-
-  <!-- Pixel Art Part -->
-  <g transform="translate(200, 15)">
-    <rect x="0" y="0" width="120" height="120" stroke="#333" stroke-width="2" rx="5" ry="5" fill="#1A1A1A"/>
-    <g transform="scale(15)">
-      <rect x="3" y="0" width="1" height="1" fill="#7B68EE"/>
-      <rect x="1" y="1" width="1" height="1" fill="#483D8B"/><rect x="2" y="1" width="1" height="1" fill="#7B68EE"/><rect x="3" y="1" width="1" height="1" fill="#7B68EE"/><rect x="4" y="1" width="1" height="1" fill="#7B68EE"/><rect x="5" y="1" width="1" height="1" fill="#483D8B"/>
-      <rect x="0" y="2" width="1" height="1" fill="#483D8B"/><rect x="1" y="2" width="1" height="1" fill="#7B68EE"/><rect x="2" y="2" width="1" height="1" fill="#7B68EE"/><rect x="3" y="2" width="1" height="1" fill="#000000"/><rect x="4" y="2" width="1" height="1" fill="#000000"/><rect x="5" y="2" width="1" height="1" fill="#7B68EE"/><rect x="6" y="2" width="1" height="1" fill="#483D8B"/>
-      <rect x="0" y="3" width="1" height="1" fill="#483D8B"/><rect x="1" y="3" width="1" height="1" fill="#7B68EE"/><rect x="2" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="3" y="3" width="1" height="1" fill="#000000"/><rect x="4" y="3" width="1" height="1" fill="#000000"/><rect x="5" y="3" width="1" height="1" fill="#7B68EE"/><rect x="6" y="3" width="1" height="1" fill="#483D8B"/>
-      <rect x="1" y="4" width="1" height="1" fill="#FFDEAD"/><rect x="2" y="4" width="1" height="1" fill="#FFDEAD"/><rect x="3" y="4" width="1" height="1" fill="#FFDEAD"/><rect x="4" y="4" width="1" height="1" fill="#FFDEAD"/><rect x="5" y="4" width="1" height="1" fill="#FFDEAD"/>
-      <rect x="1" y="5" width="1" height="1" fill="#FFDEAD"/><rect x="2" y="5" width="1" height="1" fill="#FFC0CB"/><rect x="3" y="5" width="1" height="1" fill="#FFDEAD"/><rect x="4" y="5" width="1" height="1" fill="#FFDEAD"/><rect x="5" y="5" width="1" height="1" fill="#FFC0CB"/><rect x="6" y="5" width="1" height="1" fill="#FFDEAD"/>
-      <rect x="2" y="6" width="1" height="1" fill="#FFDEAD"/><rect x="3" y="6" width="1" height="1" fill="#FFDEAD"/><rect x="4" y="6" width="1" height="1" fill="#FFDEAD"/><rect x="5" y="6" width="1" height="1" fill="#FFDEAD"/>
-      <rect x="3" y="7" width="1" height="1" fill="#000000"/><rect x="4" y="7" width="1" height="1" fill="#000000"/>
-    </g>
-  </g>
-</svg>
+![Useless Tool Logo](./logo.svg)
